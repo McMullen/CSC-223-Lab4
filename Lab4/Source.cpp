@@ -26,7 +26,6 @@ const int MAX_ENTRY = 10;
 
 //Constants that will consist of the preapproved course name list. Each course will be later
 //converted to an integer. The number following "course" will be its assigned integer value.
-// We are allowed to use global variables?
 const string course1 = "CSC101";
 const string course2 = "MTH223";
 const string course3 = "ENG105";
@@ -168,15 +167,21 @@ int convertCourse(string course);
 string courseName(int num);
 
 //-------------------------------------------------------------------------------------------------
-//Function printMaxYear:
+//Function printAsterisks: Function that will print n many times "*" to screen.
 //
-//Precondition:
-//Postcondition:
+//Precondition: The function requires the amount of "*" needed to be printed sent to it.
+//Postcondition: This function will not return anything.
 //-------------------------------------------------------------------------------------------------
-void printMaxYear(int list[][3], int answerIndex);
-
 void printAsterisks(int n);
 
+//-------------------------------------------------------------------------------------------------
+//Function totalPerCourse: This function will find the sum of all the students registered for each
+//class throughout the years it was offered and then display the results.
+//
+//Precondition: This function requires the array, the array length and the integer value for the
+//course name to be passed to it.
+//Postcondition: This function will not return anything.
+//-------------------------------------------------------------------------------------------------
 void totalPerCourse(const int list[][3], int numCourses,int numOfClass);
 
 //-------------------------------------------------------------------------------------------------
@@ -195,19 +200,26 @@ int main()
 	//low and high years. i.e. the range of years entered in the array
 	int low, high;
 
+	//prompt and enter into array
 	getData(list, numCourses, index);
 
-	rangeOfYears(list, numCourses, low, high);
-
-	minNumberOfStudents(list, numCourses);
-
+	//print the graphs for each course
 	graph(list, numCourses,convertCourse(course1), courseName(1));
 	graph(list, numCourses,convertCourse(course2), courseName(2));
 	graph(list, numCourses,convertCourse(course3), courseName(3));
+
+	//range of years courses were offered
+	rangeOfYears(list, numCourses, low, high);
+	
+	//total number of students per course
 	totalPerCourse(list, numCourses, convertCourse(course1));
 	totalPerCourse(list, numCourses, convertCourse(course2));
 	totalPerCourse(list, numCourses, convertCourse(course3));
 
+	//course with the least amount of students registered
+	minNumberOfStudents(list, numCourses);
+
+	//class with highest amount of students per year
 	maxPerYear(list,numCourses);
 
 	int in;
@@ -233,7 +245,8 @@ int main()
 //					contents placed inside. It also will need the variable controlling the amount
 //					of courses in the array and the variable that is holding the current index
 //					of the array.
-//Postcondition:	This function will not be returning anything.
+//Postcondition:	This function will not be returning anything. However, it will change the value
+//					for the number of courses in the array.
 //-------------------------------------------------------------------------------------------------
 void getData(int list [][3], int& numCourses, int index)
 {
@@ -270,12 +283,6 @@ void getData(int list [][3], int& numCourses, int index)
 
 		}//end nested for loop
 
-		//move the index to the next empty spot in the array
-		//Why is this index here? it doesn't quiet make sense when
-		//it increments i in the for loop?... something to do with index
-		// outside of the command?
-		//index++;
-
 	}//end for loop
 
 	//ask if user would like to add more entries if there is more room
@@ -289,7 +296,8 @@ void getData(int list [][3], int& numCourses, int index)
 //
 //Precondition:			 The function requires the entered number of courses to be passed to it. So
 //						 it may change its value without having to return anything.
-//Postcondition:		 The function will not return anything
+//Postcondition:		 The function will not return anything. However, it will change the value
+//						 for the number of courses in the array.
 //-------------------------------------------------------------------------------------------------
 void checkRequest(int& numCourses)
 {
@@ -478,44 +486,17 @@ void maxPerYear(const int list [][3], int numCourses)
 			index2013 = i;
 		}
 	}
-	cout << "The courses that had the MAXIMUM number of students for"
-			<< courseName(list[index2012][1])
-			<< "\n"<< "Max value for 2012 "<< max2012;
-		//while(max[i][0]==2013)
-			//if (list[i][2] > max)
-				//max2013 = list[i][2];
-	//The max number of students in 2013 in ENG 105 with 40 students
-	cout << "\nThe courses that had the MAXIMUM number of students for"
+	cout << "The courses that had the MAXIMUM number of students per year\n"
+		<< "In 2012 the max number of students in "
+		<< courseName(list[index2012][1]) << "with " << max2012 << " students."
+		<< endl;
+
+	cout << "In 2013 the max number of students in"
 			<< courseName(list[index2013][1])
-			<< "\n" << "Max value for 2012"<< max2013
+			<< " with " << max2013 << " students."
 			<< endl;
 
-	//cout << max;
 }//end maxPerYear function
-
-//-------------------------------------------------------------------------------------------------
-//Function printMaxYear:
-//
-//Precondition:
-//Postcondition:
-//-------------------------------------------------------------------------------------------------
-void printMaxYear(int list[][3], int answerIndex)
-{
-// reverse logic of the minimum.
-	//int answer = list[][2]
-	//int answerIndex =0
-
-
-	cout << "In "
-		<< list[answerIndex][0]
-		 << " the max number of students is in "
-		 << courseName(list[answerIndex][1])
-		 << " with "
-		 << list[answerIndex][2]
-		 << " students"
-		 << endl;
-
-}//end printMaxYear function
 
 //-------------------------------------------------------------------------------------------------
 //Function minNumberOfStudents: This function will compute and output the class, out of all that
@@ -567,7 +548,8 @@ void minNumberOfStudents(const int list [][3], int numCourses)
 //Precondition:			 The function requires access to read the values in the array and the
 //						 length of the array as well as the amount of courses in the array sent to
 //						 it.
-//Postcondition:		 This function will not output anything.
+//Postcondition:		 This function will not output anything. However, it will change the values
+//						 for low and high.
 //-------------------------------------------------------------------------------------------------
 void rangeOfYears(const int list [][3], int numCourses, int& low, int& high)
 {
@@ -594,24 +576,25 @@ void rangeOfYears(const int list [][3], int numCourses, int& low, int& high)
 		}//end if statment
 
 	}//end for loop
+
+	cout << "Statistics for the years " << low << " - " << high << "."
+		<< endl;
+
 }//end rangeOfYears function
 
-
+//-------------------------------------------------------------------------------------------------
+//Function graph: graph will print out the results of each class in a graphical format. The format
+//				  will be a bar graph with the y axis as the year and the x axis as the number of
+//				  students. The symbol "*" will be used to create the bars on the graph. Each set
+//				  of 3 "*" will be a unit of 5 students.
+//
+//Precondition:   graph requires the ability to read the values store in the array and the length
+//				  of the array sent to it to work properly.
+//Postcondition:  This function will not return anything.
+//-------------------------------------------------------------------------------------------------
 void graph(const int list[][3],int numOfCourses, int numOfClass,string className)
 {
 
-	/*switch (numOfClass)
-	{
-	case 1 : cout << "\n\t  __________________________________________________"
-				  <<  "\nCSC101" <<"\n\t |" << "\n\t |" << "\n2012  \t |";
-				break;
-	case 2 : cout <<  "\nMTH223" <<"\n\t |" << "\n\t |" << "\n2012  \t |";
-				break;
-	case 3 : cout <<  "\nENG105" <<"\n\t |" << "\n\t |" <<  "\n2012  \t |";
-				break;
-	default:    break;
-	}
-*/
 	cout <<  className <<"\n\t |" << "\n\t |" << "\n2012  \t |";
 	int j = 0;
 
@@ -636,11 +619,16 @@ void graph(const int list[][3],int numOfCourses, int numOfClass,string className
 
 		}
 	}
-	cout << "";
+	cout << "\n"
+		<< endl;
 }
 
-//Prints n asterisks to the screen .
-
+//-------------------------------------------------------------------------------------------------
+//Function printAsterisks: Function that will print n many times "*" to screen.
+//
+//Precondition: The function requires the amount of "*" needed to be printed sent to it.
+//Postcondition: This function will not return anything.
+//-------------------------------------------------------------------------------------------------
 void printAsterisks(int n)
  {
 
@@ -648,6 +636,15 @@ void printAsterisks(int n)
   cout << "*";
 
  }
+
+//-------------------------------------------------------------------------------------------------
+//Function totalPerCourse: This function will find the sum of all the students registered for each
+//class throughout the years it was offered and then display the results.
+//
+//Precondition: This function requires the array, the array length and the integer value for the
+//course name to be passed to it.
+//Postcondition: This function will not return anything.
+//-------------------------------------------------------------------------------------------------
 void totalPerCourse(const int list[][3], int numCourses,int numOfClass)
 {
 	switch (numOfClass)
